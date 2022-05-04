@@ -3,6 +3,9 @@ exports.up = function(knex) {
         .createTable('funcionarios', function (table) {
             table.increments('id').unique()
 
+            table.text('username').notNullable()
+            table.text('password_hash').notNullable()
+
             table.text('nome').notNullable()
             table.text('cpf').notNullable()
             table.text('Rua').notNullable()

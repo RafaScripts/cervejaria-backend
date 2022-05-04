@@ -6,6 +6,7 @@ class controllerFuncionario {
         const resposta = await Knex('funcionarios');
 
         return res.json(resposta);
+        
     }
 
 }
