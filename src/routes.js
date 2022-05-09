@@ -3,13 +3,11 @@ import controllerFuncionario from "./controllers/controllerFuncionario";
 
 const Routes = express();
 
-// Listagem
-Routes.get('/', controllerFuncionario.index);
 
-// Criação - ele recebe dados
+Routes.get('/funcionario', controllerFuncionario.index)
+.post('/funcionario', controllerFuncionario.create);
 
-// Altera - recebe dados para alterar
 
-// Deletar - deleta dados
+
 
 export default Routes;
