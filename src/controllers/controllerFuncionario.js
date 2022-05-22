@@ -29,6 +29,7 @@ class controllerFuncionario {
             cpf,
             Rua,
             numero,
+            telefone,
             cidade,
             estado,
             cep,
@@ -41,6 +42,7 @@ class controllerFuncionario {
             email,
             username,
             nome,
+            telefone,
             password_hash,
             cpf,
             Rua,
@@ -61,6 +63,7 @@ class controllerFuncionario {
             email,
             username,
             nome,
+            telefone,
             password,
             cpf,
             Rua,
@@ -94,6 +97,12 @@ class controllerFuncionario {
         if(nome){
             await knex('funcionarios').where('id',id).update({
                 nome,
+            });
+        }
+
+        if(telefone){
+            await knex('funcionarios').where('id',id).update({
+                telefone,
             });
         }
 
