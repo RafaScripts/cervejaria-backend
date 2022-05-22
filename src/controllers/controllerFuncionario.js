@@ -5,6 +5,12 @@ import knex from "../database/index";
 class controllerFuncionario {
 
     async index(req, res){
+        const {id} = req.query;
+
+        if(id){
+            const funcionario = await Knex('funcionarios').where('id', id);
+            return res.json(funcionario);
+        }
 
         const resposta = await Knex('funcionarios');
 
