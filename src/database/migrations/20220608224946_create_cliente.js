@@ -1,11 +1,9 @@
 exports.up = function(knex) {
     return knex.schema
-        .createTable('funcionarios', function (table) {
+        .createTable('clientes', function (table) {
             table.increments('id').unique()
 
             table.text('email').notNullable()
-            table.text('username').notNullable()
-            table.text('password_hash').notNullable()
 
             table.text('nome').notNullable()
             table.text('telefone').notNullable()
@@ -16,13 +14,14 @@ exports.up = function(knex) {
             table.text('numero').notNullable()
             table.text('cep').notNullable()
 
-            table.integer('id_equipe').references('equipe.id').notNullable()
+            table.datetime('created_at').defaultTo(knex.fn.now())
+            table.datetime('updated_at').defaultTo(knex.fn.now())
         })
 };
 
 exports.down = function(knex) {
     return knex.schema
-        .dropTable("funcionarios")
+        .dropTable("clientes")
 };
 
 exports.config = { transaction: false };

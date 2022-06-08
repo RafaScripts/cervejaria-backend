@@ -147,4 +147,6 @@ class controllerFuncionario {
     }
 }
 
+
+
 export default new controllerFuncionario;
