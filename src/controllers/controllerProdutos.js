@@ -44,6 +44,39 @@ class ControllerProdutos {
         });
 
     }
+
+    async update(req, res){
+        const { id } = req.params;
+        const { nome, price, commission, description, quantidade } = req.body;
+
+        await Knex('produto').where('id', id).update({
+            nome,
+            price,
+            commission,
+            description
+        });
+
+        if(quantidade){
+            await estoqueUpdate(nome, quantidade);
+            return res.json({
+                message: 'Estoque atualizado com sucesso!'
+            });
+        }
+
+        return res.json({
+            message: 'Produto atualizado com sucesso!'
+        });
+    }
+
+    async delete(req, res){
+        const { id } = req.params;
+
+        await Knex('produto').where('id', id).delete();
+
+        return res.json({
+            message: 'Produto deletado com sucesso!'
+        });
+    }
 }
 
 async function estoque(nome ,quantidade){
@@ -60,6 +93,14 @@ async function estoque(nome ,quantidade){
     const id = reverse[0].id;
 
     return id;
+}
+
+async function estoqueUpdate(nome, quantidade){
+    await Knex('estoque').where('nome', nome).update({
+        quantidade
+    });
+
+    return;
 }
 
 export default new ControllerProdutos;
