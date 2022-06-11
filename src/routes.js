@@ -1,6 +1,7 @@
 import express from "express";
 import controllerEquipe from "./controllers/controllerEquipe";
 import controllerFuncionario from "./controllers/controllerFuncionario";
+import ControllerProdutos from "./controllers/controllerProdutos";
 
 
 const Routes = express();
@@ -18,7 +19,11 @@ Routes.get('/equipe', controllerEquipe.index)
       .put('/equipe', controllerEquipe.update)
       .delete('/equipe', controllerEquipe.delete);
 
-
+// Rota para o modulo produtos
+Routes.get('/produtos', ControllerProdutos.index)
+      .post('/produtos', ControllerProdutos.create);
+      //.put('/produtos', ControllerProdutos.update)
+      //.delete('/produtos', ControllerProdutos.delete);
 
 
 
