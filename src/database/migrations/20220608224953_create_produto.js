@@ -4,7 +4,7 @@ exports.up = function(knex) {
             table.increments('id').unique()
 
             table.string('nome').notNullable()
-            table.integer('id_estoque').references('estoque.id').notNullable()
+            table.integer('id_estoque').references('estoque.id').defaultTo(null)
             table.double('price').notNullable()
             table.double('commission').notNullable()
             table.string('description').notNullable()
@@ -20,3 +20,9 @@ exports.down = function(knex) {
 };
 
 exports.config = { transaction: false };
+
+/*
+
+
+
+ */

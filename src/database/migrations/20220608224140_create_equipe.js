@@ -3,8 +3,9 @@ exports.up = function(knex) {
         .createTable('equipe', function (table) {
             table.increments('id').unique()
 
-            table.string('nome').notNullable()
-            table.string('função').notNullable()
+            table.string('nome_equipe').notNullable()
+            table.string('regiao').notNullable()
+            table.string('gerente').defaultTo(null)
 
             table.datetime('created_at').defaultTo(knex.fn.now())
             table.datetime('updated_at').defaultTo(knex.fn.now())

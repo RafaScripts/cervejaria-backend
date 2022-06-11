@@ -16,7 +16,7 @@ exports.up = function(knex) {
             table.text('numero').notNullable()
             table.text('cep').notNullable()
 
-            table.integer('id_equipe').references('equipe.id').notNullable()
+            table.integer('id_equipe').references('equipe.id').defaultTo(null)
         })
 };
 
