@@ -2,9 +2,17 @@ import express from "express";
 import controllerEquipe from "./controllers/controllerEquipe";
 import controllerFuncionario from "./controllers/controllerFuncionario";
 import ControllerProdutos from "./controllers/controllerProdutos";
+import controllerCliente from "./controllers/controllerCliente";
+import ControllerLogin from "./controllers/controllerLogin";
 
+import token_auth from './midlewares/token_auth';
 
 const Routes = express();
+
+Routes.post('/login', ControllerLogin.login);
+
+// Midleware para autenticação
+Routes.use(token_auth);
 
 // Rota para modulo funcionarios
 Routes.get('/funcionario', controllerFuncionario.index)
@@ -21,9 +29,15 @@ Routes.get('/equipe', controllerEquipe.index)
 
 // Rota para o modulo produtos
 Routes.get('/produtos', ControllerProdutos.index)
-      .post('/produtos', ControllerProdutos.create);
-      //.put('/produtos', ControllerProdutos.update)
-      //.delete('/produtos', ControllerProdutos.delete);
+      .post('/produtos', ControllerProdutos.create)
+      .put('/produtos', ControllerProdutos.update)
+      .delete('/produtos', ControllerProdutos.delete);
+
+// Rota para o modulo cliente
+Routes.get('/cliente', controllerCliente.index)
+    .post('/cliente', controllerCliente.create)
+    .put('/cliente', controllerCliente.update)
+    .delete('/cliente', controllerCliente.delete);
 
 
 
