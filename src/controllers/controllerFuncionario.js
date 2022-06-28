@@ -1,6 +1,5 @@
 import Knex from "../database/index";
 import bcrypt from "bcrypt";
-import knex from "../database/index";
 
 class controllerFuncionario {
 
@@ -12,7 +11,7 @@ class controllerFuncionario {
             return res.json(funcionario);
         }
 
-        const resposta = await Knex('funcionarios');
+        const resposta = await Knex('funcionarios').join('equipe', 'funcionarios.id_equipe', '=', 'equipe.id').select('funcionarios.*', 'equipe.*');
 
         return res.json(resposta);
 

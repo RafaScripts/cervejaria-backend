@@ -2,7 +2,13 @@ import Knex from '../database/index';
 
 class ControllerProdutos {
     async index(req, res){
+        const { id } = req.query;
         const { page } = req.query;
+
+        if(id){
+            const produto = await Knex('produto').where('id', id).first();
+            return res.json(produto);
+        }
 
         if(page){
             const [count] = await Knex('produto').count();
@@ -11,7 +17,7 @@ class ControllerProdutos {
                 .join('estoque', 'estoque.id', '=', 'produto.id_estoque')
                 .limit(5)
                 .offset((page - 1) * 5)
-                .select(['produto.*', 'estoque.quantidade']);
+                .select(['produto.*', 'estoque.quantidade as quantidade']);
 
             res.header('X-Total-Count', count['count(*)']);
 
@@ -20,7 +26,7 @@ class ControllerProdutos {
 
         const produtos = await Knex('produto')
             .join('estoque', 'estoque.id', '=', 'produto.id_estoque')
-            .select(['produto.*', 'estoque.quantidade']);
+            .select(['produto.*', 'estoque.quantidade as quantidade']);
 
         return res.json(produtos);
     }

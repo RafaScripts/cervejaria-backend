@@ -1,4 +1,4 @@
-import Knex from "../database/index";
+import Knex from '../database/index';
 
 class controllerCliente {
 
@@ -31,7 +31,7 @@ class controllerCliente {
         } = req.body;
 
 
-        await knex('clientes').insert({
+        await Knex('clientes').insert({
             email,
             nome,
             telefone,
@@ -55,6 +55,7 @@ class controllerCliente {
             nome,
             telefone,
             Rua,
+            cpf,
             numero,
             cidade,
             estado,
@@ -78,19 +79,19 @@ class controllerCliente {
         };
 
         if (nome) {
-            await knex('clientes').where('id', id).update({
+            await Knex('clientes').where('id', id).update({
                 nome,
             });
         }
 
         if (telefone) {
-            await knex('clientes').where('id', id).update({
+            await Knex('clientes').where('id', id).update({
                 telefone,
             });
         }
 
         if (endereco) {
-            await knex('clientes').where('id', id).update({
+            await Knex('clientes').where('id', id).update({
                 Rua,
                 numero,
                 cidade,
@@ -100,7 +101,7 @@ class controllerCliente {
         }
 
         if (cpf) {
-            await knex('clientes').where('id', id).update({
+            await Knex('clientes').where('id', id).update({
                 cpf,
             });
         }

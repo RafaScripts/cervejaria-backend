@@ -1,4 +1,4 @@
-import knex from "../database/index";
+import Knex from "../database/index";
 
 
 class controllerEquipe {
@@ -7,11 +7,11 @@ class controllerEquipe {
         const {id} = req.query;
 
         if(id){
-            const equipe = await knex('equipe').where('id',id);
+            const equipe = await Knex('equipe').where('id',id);
             return res.json(equipe);
         }
 
-        const resposta = await knex('equipe');
+        const resposta = await Knex('equipe');
         return res.json(resposta);
 
     }
@@ -25,7 +25,7 @@ class controllerEquipe {
             regiao,
             gerente} = req.body;
 
-        await knex('equipe').insert({ 
+        await Knex('equipe').insert({
             nome_equipe,
             regiao,
             gerente});
@@ -46,7 +46,7 @@ class controllerEquipe {
             gerente} =req.body;
 
             if(nome_equipe && regiao && gerente){
-                await knex('equipe').where('id',id).update({
+                await Knex('equipe').where('id',id).update({
                     nome_equipe,
                     regiao,
                     gerente
@@ -64,7 +64,7 @@ class controllerEquipe {
 
         const {id}= req.query;
 
-        await knex('equipe').delete().where({id:id});
+        await Knex('equipe').delete().where({id:id});
 
         return res.json ('Equipe Deletada!')
     }
