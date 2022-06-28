@@ -11,7 +11,7 @@ class controllerFuncionario {
             return res.json(funcionario);
         }
 
-        const resposta = await Knex('funcionarios').join('equipe', 'funcionarios.id_equipe', '=', 'equipe.id').select('funcionarios.*', 'equipe.*');
+        const resposta = await Knex('funcionarios').join('equipe', 'funcionarios.id_equipe', '=', 'equipe.id').select('funcionarios.*', 'equipe.nome_equipe as nome_equipe', 'equipe.id as id_equipe');
 
         return res.json(resposta);
 
