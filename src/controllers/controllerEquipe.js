@@ -45,8 +45,10 @@ class controllerEquipe {
             regiao,
             gerente} =req.body;
 
+
+
             if(nome_equipe && regiao && gerente){
-                await Knex('equipe').where('id',id).update({
+                await Knex('equipe').where({id: id}).update({
                     nome_equipe,
                     regiao,
                     gerente
@@ -55,7 +57,7 @@ class controllerEquipe {
                 return res.json('Equipe Atualizada!');
             }
 
-            return res.json('Nenhum dado de equipe foi informado!')
+            return res.status(400).json('Nenhum dado de equipe foi informado!')
 
     }
 
