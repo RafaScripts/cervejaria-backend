@@ -37,7 +37,7 @@ class controllerFuncionario {
 
         const password_hash = await bcrypt.hash(password,8);
 
-        await knex('funcionarios').insert({
+        await Knex('funcionarios').insert({
             email,
             username,
             nome,
@@ -82,31 +82,31 @@ class controllerFuncionario {
 
         if(password){
             const password_hash = await bcrypt.hash(password,8);
-            await knex('funcionarios').where('id',id).update({
+            await Knex('funcionarios').where('id',id).update({
                 password_hash,
             });
         }
 
         if(username){
-            await knex('funcionarios').where('id',id).update({
+            await Knex('funcionarios').where('id',id).update({
                 username,
             });
         }
 
         if(nome){
-            await knex('funcionarios').where('id',id).update({
+            await Knex('funcionarios').where('id',id).update({
                 nome,
             });
         }
 
         if(telefone){
-            await knex('funcionarios').where('id',id).update({
+            await Knex('funcionarios').where('id',id).update({
                 telefone,
             });
         }
 
         if(endereco){
-            await knex('funcionarios').where('id',id).update({
+            await Knex('funcionarios').where('id',id).update({
                 Rua,
                 numero,
                 cidade,
@@ -116,7 +116,7 @@ class controllerFuncionario {
         }
 
         if(cpf){
-            await knex('funcionarios').where('id',id).update({
+            await Knex('funcionarios').where('id',id).update({
                 cpf,
             });
         }
