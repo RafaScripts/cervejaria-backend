@@ -29,9 +29,10 @@ Routes.get('/equipe', controllerEquipe.index)
 
 // Rota para o modulo produtos
 Routes.get('/produtos', ControllerProdutos.index)
-      .post('/produtos', ControllerProdutos.create)
-      .put('/produtos', ControllerProdutos.update)
-      .delete('/produtos', ControllerProdutos.delete);
+    .post('/produtos', ControllerProdutos.create)
+    .put('/produtos', ControllerProdutos.update)
+    .put('/produtos/estoque', ControllerProdutos.upEstoque)
+    .delete('/produtos', ControllerProdutos.delete);
 
 // Rota para o modulo cliente
 Routes.get('/cliente', controllerCliente.index)

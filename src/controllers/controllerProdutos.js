@@ -26,7 +26,7 @@ class ControllerProdutos {
 
         const produtos = await Knex('produto')
             .join('estoque', 'estoque.id', '=', 'produto.id_estoque')
-            .select(['produto.*', 'estoque.quantidade as quantidade']);
+            .select(['produto.*', 'estoque.quantidade as quantidade', 'estoque.id as id_estoque']);
 
         return res.json(produtos);
     }
@@ -52,8 +52,9 @@ class ControllerProdutos {
     }
 
     async update(req, res){
-        const { id } = req.params;
-        const { nome, price, commission, description, quantidade } = req.body;
+        const { id } = req.query;
+        const { nome, price, commission, description } = req.body;
+
 
         await Knex('produto').where('id', id).update({
             nome,
@@ -62,20 +63,22 @@ class ControllerProdutos {
             description
         });
 
-        if(quantidade){
-            await estoqueUpdate(nome, quantidade);
-            return res.json({
-                message: 'Estoque atualizado com sucesso!'
-            });
-        }
-
         return res.json({
             message: 'Produto atualizado com sucesso!'
         });
     }
 
+    async upEstoque(req, res){
+        const { id_estoque } = req.query;
+        const { quantidade } = req.body;
+
+        await estoqueUpdate(id_estoque, quantidade);
+
+        return res.json();
+    }
+
     async delete(req, res){
-        const { id } = req.params;
+        const { id } = req.query;
 
         await Knex('produto').where('id', id).delete();
 
@@ -101,8 +104,8 @@ async function estoque(nome ,quantidade){
     return id;
 }
 
-async function estoqueUpdate(nome, quantidade){
-    await Knex('estoque').where('nome', nome).update({
+async function estoqueUpdate(id_estoque, quantidade){
+    await Knex('estoque').where({ id: id_estoque }).update({
         quantidade
     });
 
