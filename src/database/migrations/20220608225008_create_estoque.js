@@ -4,7 +4,10 @@ exports.up = function(knex) {
             table.increments('id').unique()
 
             table.string('nome').notNullable()
+            table.integer('idProduto').references('produto.id').notNullable()
             table.integer('quantidade').notNullable()
+            table.integer('localizacao').notNullable()
+            table.datetime('dataVencimento').notNullable()
 
             table.datetime('created_at').defaultTo(knex.fn.now())
             table.datetime('updated_at').defaultTo(knex.fn.now())

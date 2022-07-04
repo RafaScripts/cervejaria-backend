@@ -4,6 +4,7 @@ import controllerFuncionario from "./controllers/controllerFuncionario";
 import ControllerProdutos from "./controllers/controllerProdutos";
 import controllerCliente from "./controllers/controllerCliente";
 import ControllerLogin from "./controllers/controllerLogin";
+import controllerEstoque from "./controllers/controllerEstoque";
 
 import token_auth from './midlewares/token_auth';
 
@@ -31,7 +32,6 @@ Routes.get('/equipe', controllerEquipe.index)
 Routes.get('/produtos', ControllerProdutos.index)
     .post('/produtos', ControllerProdutos.create)
     .put('/produtos', ControllerProdutos.update)
-    .put('/produtos/estoque', ControllerProdutos.upEstoque)
     .delete('/produtos', ControllerProdutos.delete);
 
 // Rota para o modulo cliente
@@ -39,6 +39,12 @@ Routes.get('/cliente', controllerCliente.index)
     .post('/cliente', controllerCliente.create)
     .put('/cliente', controllerCliente.update)
     .delete('/cliente', controllerCliente.delete);
+
+// Rota Estoque
+Routes.get('/estoque', controllerEstoque.index)
+		.post('/estoque', controllerEstoque.create)
+		.put('/estoque', controllerEstoque.update)
+		.delete('/estoque', controllerEstoque.delete);
 
 
 

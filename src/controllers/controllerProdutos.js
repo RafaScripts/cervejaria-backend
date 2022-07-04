@@ -1,115 +1,75 @@
 import Knex from '../database/index';
 
 class ControllerProdutos {
-    async index(req, res){
-        const { id } = req.query;
-        const { page } = req.query;
+	async index(req, res){
+		const { id } = req.query;
+		const { page } = req.query;
 
-        if(id){
-            const produto = await Knex('produto').where('id', id).first();
-            return res.json(produto);
-        }
+		if(id){
+			const produto = await Knex('produto').where('id', id).first();
+			return res.json(produto);
+		}
 
-        if(page){
-            const [count] = await Knex('produto').count();
+		if(page){
+			const [count] = await Knex('produto').count();
 
-            const produtos = await Knex('produto')
-                .join('estoque', 'estoque.id', '=', 'produto.id_estoque')
-                .limit(5)
-                .offset((page - 1) * 5)
-                .select(['produto.*', 'estoque.quantidade as quantidade']);
+			const produtos = await Knex('produto')
+				.limit(5)
+				.offset((page - 1) * 5);
 
-            res.header('X-Total-Count', count['count(*)']);
+			res.header('X-Total-Count', count['count(*)']);
 
-            return res.json(produtos);
-        }
+			return res.json(produtos);
+		}
 
-        const produtos = await Knex('produto')
-            .join('estoque', 'estoque.id', '=', 'produto.id_estoque')
-            .select(['produto.*', 'estoque.quantidade as quantidade', 'estoque.id as id_estoque']);
+		const produtos = await Knex('produto');
 
-        return res.json(produtos);
-    }
+		return res.json(produtos);
+	}
 
-    async create(req, res){
+	async create(req, res){
 
-        const {nome, price, commission, description, quantidade } = req.body;
+		const {nome, price, commission, description } = req.body;
 
-        const id_estoque = await estoque(nome, quantidade);
+		await Knex('produto').insert({
+			nome,
+			price,
+			commission,
+			description
+		});
 
-        await Knex('produto').insert({
-            nome,
-            id_estoque,
-            price,
-            commission,
-            description
-        });
+		return res.json({
+			message: 'Produto cadastrado com sucesso!'
+		});
 
-        return res.json({
-            message: 'Produto cadastrado com sucesso!'
-        });
+	}
 
-    }
-
-    async update(req, res){
-        const { id } = req.query;
-        const { nome, price, commission, description } = req.body;
+	async update(req, res){
+		const { id } = req.query;
+		const { nome, price, commission, description } = req.body;
 
 
-        await Knex('produto').where('id', id).update({
-            nome,
-            price,
-            commission,
-            description
-        });
+		await Knex('produto').where('id', id).update({
+			nome,
+			price,
+			commission,
+			description
+		});
 
-        return res.json({
-            message: 'Produto atualizado com sucesso!'
-        });
-    }
+		return res.json({
+			message: 'Produto atualizado com sucesso!'
+		});
+	}
 
-    async upEstoque(req, res){
-        const { id_estoque } = req.query;
-        const { quantidade } = req.body;
+	async delete(req, res){
+		const { id } = req.query;
 
-        await estoqueUpdate(id_estoque, quantidade);
+		await Knex('produto').where('id', id).delete();
 
-        return res.json();
-    }
-
-    async delete(req, res){
-        const { id } = req.query;
-
-        await Knex('produto').where('id', id).delete();
-
-        return res.json({
-            message: 'Produto deletado com sucesso!'
-        });
-    }
-}
-
-async function estoque(nome ,quantidade){
-
-    await Knex('estoque').insert({
-        nome,
-        quantidade
-    });
-
-    const estoque = await Knex('estoque');
-
-    const reverse = estoque.reverse();
-
-    const id = reverse[0].id;
-
-    return id;
-}
-
-async function estoqueUpdate(id_estoque, quantidade){
-    await Knex('estoque').where({ id: id_estoque }).update({
-        quantidade
-    });
-
-    return;
+		return res.json({
+			message: 'Produto deletado com sucesso!'
+		});
+	}
 }
 
 export default new ControllerProdutos;
