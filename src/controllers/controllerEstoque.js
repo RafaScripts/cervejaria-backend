@@ -2,12 +2,19 @@ import Knex from '../database/index';
 
 class controllerEstoque {
   async index(req, res) {
-    const estoque = await Knex('estoque').select('*');
+    const {idEstoque} = req.query;
+
+    if(idEstoque) {
+      const estoque = await Knex('estoque').where('idEstoque', idEstoque).first();
+      return res.json(estoque);
+    }
+
+    const estoque = await Knex('estoque').join('produto', 'estoque.idProduto', '=', 'produto.id').select('*');
     return res.json(estoque);
   }
 
   async create(req, res) {
-    const { idProduto, quantidade, DataVencimento, localizacao } = req.body;
+    const { idProduto, nome, quantidade, DataVencimento, localizacao } = req.body;
     if(!idProduto){
       return res.status(400).json({ error: 'idProduto is required' });
     }
@@ -15,6 +22,7 @@ class controllerEstoque {
     let dataVencimento = new Date(DataVencimento);
 
     const estoque = await Knex('estoque').insert({
+      nome,
       idProduto,
       quantidade,
       dataVencimento,
@@ -25,18 +33,15 @@ class controllerEstoque {
 
   async update(req, res) {
     const { id } = req.query;
-    const { idProduto, quantidade, DataVencimento, localizacao } = req.body;
+    const { idProduto, quantidade, localizacao } = req.body;
 
     if(!idProduto){
       return res.status(400).json({ error: 'idProduto is required' });
     }
 
-    let dataVencimento = new Date(DataVencimento);
-
     const estoque = await Knex('estoque').where('id', id).update({
       idProduto,
       quantidade,
-      dataVencimento,
       localizacao,
     });
     return res.json(estoque);

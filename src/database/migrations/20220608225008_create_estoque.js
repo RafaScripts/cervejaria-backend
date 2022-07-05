@@ -3,10 +3,10 @@ exports.up = function(knex) {
         .createTable('estoque', function (table) {
             table.increments('id').unique()
 
-            table.string('nome').notNullable()
+            table.string('nome')
             table.integer('idProduto').references('produto.id').notNullable()
             table.integer('quantidade').notNullable()
-            table.integer('localizacao').notNullable()
+            table.string('localizacao').notNullable()
             table.datetime('dataVencimento').notNullable()
 
             table.datetime('created_at').defaultTo(knex.fn.now())
